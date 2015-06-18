@@ -16,6 +16,7 @@ Models:
     Bookmark:
         FK User
         URL
+        short
         timestamp
         title
         description (optional)
