@@ -16,8 +16,25 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import login
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^index/$', TemplateView.as_view(template_name="index.html"), name='index'),
+    url(r'^$', TemplateView.as_view(
+        template_name="index.html"),
+        name='index'),
+    url(r'^register/', CreateView.as_view(
+            template_name='register.html',
+            form_class=UserCreationForm,
+            success_url='index'),
+        name='user_register'),
+    url(r'^accounts/', include('django.contrib.auth.urls')),  # FIXME: Make a lost password template
+    url(r'^login/$', login, name='login'),
+    # url(r'^logout', django.contrib.auth.logout(request)),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',
+    {'next_page': '/'}), # FIXME: Make this a non-admin view
 ]
+
+
