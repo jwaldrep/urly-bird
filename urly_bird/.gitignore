@@ -67,5 +67,3 @@ ml-100k*
 .idea
 fixtures
 *.sql
-.direnv
-.envrc
