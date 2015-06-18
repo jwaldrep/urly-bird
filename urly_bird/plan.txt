@@ -1,0 +1,27 @@
+"""
+2 apps: Bookmark and Click
+Models: User,
+Bookmark
+    saves URL, makes url hash
+Click
+    accept hash url, redirect to bookmark url
+    tracks -timestamp, user data (IP address, browser, other metadata)
+
+Models:
+    User 1:∞ Bookmark 1:∞ Click
+
+    User:
+        built in fields
+
+    Bookmark:
+        FK User
+        URL
+        timestamp
+        title
+        description (optional)
+
+    Click:
+        FK Bookmark
+        timestamp
+        user (optional) - NOT FK
+"""
