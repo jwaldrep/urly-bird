@@ -19,7 +19,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import login
-from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, BookmarkUpdate
+from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, BookmarkUpdate, BookmarkListView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -36,6 +36,7 @@ urlpatterns = [
     # url(r'^logout', django.contrib.auth.logout(request)),
     url(r'^logout/$', 'django.contrib.auth.views.logout',
     {'next_page': '/'}), # FIXME: Make this a non-admin view
+    url(r'^bookmarks/$', BookmarkListView.as_view(), name="bookmark_list"),
 
     url(r'bookmark/add/$', BookmarkCreate.as_view(), name='bookmark_add'),
     url(r'bookmark/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(), name='bookmark_update'),

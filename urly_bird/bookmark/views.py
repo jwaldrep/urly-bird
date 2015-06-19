@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import ListView
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
@@ -25,3 +26,22 @@ class BookmarkUpdate(UpdateView):
 class BookmarkDelete(DeleteView):
     model = Bookmark
     success_url = reverse_lazy('bookmark_list')
+
+
+class BookmarkListView(ListView):
+    template_name = "bookmarks/bookmark_list.html"
+    model = Bookmark
+    context_object_name = 'bookmarks'
+    queryset = Bookmark.objects.order_by('-timestamp', ) #.annotate(Count('favorite')).select_related()
+    paginate_by = 20
+    header = "All bookmarks"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = self.header
+        # if self.request.user.is_authenticated():
+        #     favorites = self.request.user.favorited_bookmarks.all()
+        # else:
+        #     favorites = []
+        # context["favorites"] = favorites
+        return context
