@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Add Bookmark</h2>
+
+    <form method="POST" action="{% url 'bookmark_add' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+{#        {{ rater_form.as_p }}#}
+
+        <!-- Provide a button to click to submit the form. -->
+        <input type="submit" name="submit" value="Add"/>
+    </form>
+{% endblock %}
