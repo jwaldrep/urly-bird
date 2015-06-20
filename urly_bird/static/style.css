@@ -1,12 +1,13 @@
 .jumbotron {
 	/*font-size:8px;*/
 	background-image: url(birds-fade.jpg);
-	background-size: 1200px;
-	background-position: -150px -100px;
+	background-size: 1350px;
+	background-position: -150px -150px;
     background-repeat: no-repeat;
 	color: #008cba;
 	background-attachment:fixed;
 	min-height:400px;
+	max-width: 1200px;
 	/*margin-top:0px;*/
 	/*margin-bottom:8px;*/
 	margin-left:0px;

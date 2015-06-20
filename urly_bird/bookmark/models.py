@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, now
 from hashids import Hashids
 from random import randint
 from django.core.urlresolvers import reverse
@@ -41,7 +41,6 @@ class Bookmark(models.Model):
         return reverse('bookmark_detail', kwargs={'pk': self.pk})
 
 
-
 def create_short(num):
     hashids = Hashids()
     return hashids.encode(num)
@@ -67,3 +66,11 @@ def create_fake_bookmarks(user, num=10):
                             title=title, description=description)
         bookmark.save()
 
+
+class Click(models.Model):
+    bookmark = models.ForeignKey(Bookmark)
+    timestamp = models.DateTimeField(default=now)
+    user_id = models.CharField(max_length=16)
+
+    def __str__(self):
+        return '@' + str(self.timestamp) + '->' + str(self.bookmark)
