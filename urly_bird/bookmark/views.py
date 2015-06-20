@@ -45,3 +45,6 @@ class BookmarkListView(ListView):
         #     favorites = []
         # context["favorites"] = favorites
         return context
+
+class IndexView(BookmarkListView):
+    template_name = "index.html"
