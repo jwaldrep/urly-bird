@@ -74,3 +74,20 @@ class Click(models.Model):
 
     def __str__(self):
         return '@' + str(self.timestamp) + '->' + str(self.bookmark)
+
+def create_fake_clicks(bookmarks, num=10, random=True,
+                       timefn=Faker().date_time_this_month):
+    """
+        Create `num` fake clicks for each bookmark with timestep
+        given a set of bookmark objects (bookmarks).
+        If random is True, create between 1 and `num` clicks for each combo.
+
+        Example Usage:
+        bs = Bookmark.objects.all().filter(user_id=1)
+        create_fake_clicks(bs, num=3)
+    """
+    for bookmark in bookmarks:
+        for _ in range(randint(1,num)):
+            click = Click(bookmark=bookmark, timestamp=make_aware(timefn()),
+                          user_id=bookmark.user_id)
+            click.save()
