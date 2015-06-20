@@ -1,15 +1,15 @@
 .jumbotron {
 	/*font-size:8px;*/
-	background-image: url(popcorn-fade.jpg);
+	background-image: url(birds-fade.jpg);
 	background-size: 1200px;
-	background-position: -280px -180px;
+	background-position: -150px -100px;
     background-repeat: no-repeat;
 	color: #008cba;
 	background-attachment:fixed;
-	min-height:300px;
+	min-height:400px;
 	/*margin-top:0px;*/
 	/*margin-bottom:8px;*/
-	margin-left:50px;
+	margin-left:0px;
 	/*-webkit-opacity: 0.25;*/
   /*-moz-opacity: 0.25;*/
   /*opacity: 0.25;*/

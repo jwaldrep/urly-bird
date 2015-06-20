@@ -35,7 +35,8 @@ urlpatterns = [
     url(r'^login/$', login, name='login'),
     # url(r'^logout', django.contrib.auth.logout(request)),
     url(r'^logout/$', 'django.contrib.auth.views.logout',
-    {'next_page': '/'}), # FIXME: Make this a non-admin view
+    {'next_page': 'index'}), # FIXME: Make this a non-admin view
+            # Consider using logout_then_login(request[, login_url])
     url(r'^bookmarks/$', BookmarkListView.as_view(), name="bookmark_list"),
 
     url(r'bookmark/add/$', BookmarkCreate.as_view(), name='bookmark_add'),
