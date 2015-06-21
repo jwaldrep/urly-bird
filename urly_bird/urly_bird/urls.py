@@ -20,15 +20,16 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
-    BookmarkUpdate, BookmarkListView, IndexView, ClickView, UserBookmarkListView
+    BookmarkUpdate, BookmarkListView, IndexView, ClickView, \
+    UserBookmarkListView, MyBookmarksView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^$', TemplateView.as_view(
     #     template_name="index.html"),
     #     name='index'),
-    url(r'^$', IndexView.as_view(),name='index'),
-    url(r'^b/(?P<pk>[A-Za-z0-9]+)/$', ClickView,name='click'),
+    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^b/(?P<pk>[A-Za-z0-9]+)/$', ClickView, name='click'),
     url(r'^register/', CreateView.as_view(
         template_name='register.html',
         form_class=UserCreationForm,
@@ -49,6 +50,9 @@ urlpatterns = [
     url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/delete/$', BookmarkDelete.as_view(),
         name='bookmark_delete'),
     url(r'^bookmark/detail/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
-        name='bookmark_detail'),  # FIXME: Redundant, add loginrequired
-    url(r'^user/(?P<user_id>\d+)$', UserBookmarkListView.as_view(), name="show_user"), #TODO: Add user view
+        name='bookmark_detail'),
+    # TODO: Add stats page for link in a a linechart
+    url(r'^user/(?P<user_id>\d+)$', UserBookmarkListView.as_view(),
+        name="show_user"),
+    url(r'dashboard/$', MyBookmarksView, name='dashboard')
 ]

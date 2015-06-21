@@ -87,7 +87,8 @@ def create_fake_clicks(bookmarks, num=10, random=True,
         create_fake_clicks(bs, num=3)
     """
     for bookmark in bookmarks:
+        users = User.objects.all()
         for _ in range(randint(1,num)):
             click = Click(bookmark=bookmark, timestamp=make_aware(timefn()),
-                          user_id=bookmark.user_id)  # FIXME: pick random user
+                          user_id=random.choice(users))  # FIXME: pick random user, test
             click.save()

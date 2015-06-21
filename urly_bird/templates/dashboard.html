@@ -3,36 +3,43 @@
 
 {% block content %}
 
-    <div class="col-md-12">
-        <h2>{{ header }} for {{ bookmarks.first.user.get_username }}</h2>
+    <div class="col-md-9">
+        <h2>{{ request.user }}'s Dashboard</h2>
         <ol>
             {% if is_paginated %}
                 {% bootstrap_pagination page_obj %}
             {% endif %}
             <table style="width:100%">
                 <tr>
+{#                    TODO: Add sortable column headings/urls #}
                     <td>Date</td>
-                    <td>Created By</td>
+{#                    <td>Created By</td>#}
                     <td>Urlycode</td>
                     <td>Full URL</td>
-                    <td>Clicks</td>
-                    {% if request.user == bookmarks.first.user %}
+                    <td>Clicks - All Time</td>
+                    <td>Clicks - Past 30 days</td>
+                    {% if request.user == mine.first.user %}
                         <td>Edit</td>
                         <td>Delete</td>
                     {% endif %}
                 </tr>
-                {% for bookmark in bookmarks %}
+                {% for bookmark in mine %}
                     <tr>
                         <td>{{ bookmark.timestamp }}</td>
-                        <td>{{ bookmark.user }}</td>
+{#                        <td>{{ bookmark.user }}</td>#}
                         <td>
                             <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark.short }}
                         </td>
                         <td>
                             <a href="{% url 'click' bookmark.pk %}">
                             {{ bookmark.url }}</td>
+                        <td> {{ bookmark.count_total }} </td>
                         <td>
-                            {{ bookmark.num_clicks }}
+                            {%  if bookmark in recent %}
+                            {{ recent.get.bookmark.count_recent }}  {# FIXME: show value here #}
+                            {% else %}
+                                0
+                            {% endif %}
                         </td>
                         {% if request.user == bookmark.user %}
                             <td>
