@@ -20,7 +20,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
-    BookmarkUpdate, BookmarkListView, IndexView
+    BookmarkUpdate, BookmarkListView, IndexView, ClickView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -28,6 +28,7 @@ urlpatterns = [
     #     template_name="index.html"),
     #     name='index'),
     url(r'^$', IndexView.as_view(),name='index'),
+    url(r'^b/(?P<pk>[A-Za-z0-9]+)/$', ClickView,name='click'),
     url(r'^register/', CreateView.as_view(
         template_name='register.html',
         form_class=UserCreationForm,

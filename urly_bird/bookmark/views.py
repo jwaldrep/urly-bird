@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from bookmark.models import Bookmark
+from django.shortcuts import render, redirect
 
 class BookmarkCreate(CreateView):
     model = Bookmark
@@ -48,3 +49,8 @@ class BookmarkListView(ListView):
 
 class IndexView(BookmarkListView):
     template_name = "index.html"
+
+def ClickView(request, pk):
+    # do something, then
+    url = Bookmark.objects.get(pk=pk).url
+    return redirect(url)
