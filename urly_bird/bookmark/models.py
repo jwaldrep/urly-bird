@@ -89,5 +89,5 @@ def create_fake_clicks(bookmarks, num=10, random=True,
     for bookmark in bookmarks:
         for _ in range(randint(1,num)):
             click = Click(bookmark=bookmark, timestamp=make_aware(timefn()),
-                          user_id=bookmark.user_id)
+                          user_id=bookmark.user_id)  # FIXME: pick random user
             click.save()

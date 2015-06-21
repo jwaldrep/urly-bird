@@ -3,9 +3,10 @@ from django.views.generic import ListView
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from bookmark.models import Bookmark
+from bookmark.models import Bookmark, Click
 from django.shortcuts import render, redirect
 from django.db.models import Count, Avg
+from django.utils import timezone
 
 class BookmarkCreate(CreateView):
     model = Bookmark
@@ -66,7 +67,10 @@ class IndexView(BookmarkListView):
 def ClickView(request, pk):
     # do something, then
     # When a user -- anonymous or logged in -- uses a bookmark URL, record that user, bookmark, and timestamp.
-    url = Bookmark.objects.get(pk=pk).url
-    return redirect(url)
+    bookmark = Bookmark.objects.get(pk=pk)
+    click = Click(bookmark=bookmark, timestamp=timezone.now(),
+                          user_id=request.user.id)
+    click.save()
+    return redirect(bookmark.url)
 
 # TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
