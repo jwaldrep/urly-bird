@@ -40,10 +40,10 @@
                 {#            <li role="presentation"><a href="#">About</a></li>#}
                 {#                            <li role="presentation"><a href="#">Contact</a></li>#}
                 {% if user.is_authenticated %}
-{#                    <li role="presentation"><a href="{% url 'show_rater' user.rater.id %}">#}
-{#                        Welcome, {{ user.get_username }}!</a></li>#}
+                    <li role="presentation"><a href="{% url 'show_user' user.id %}">
+                        Welcome, {{ user.get_username }}!</a></li>
                     <li role="presentation">
-                        <a href="accounts/logout"> [Log Out]</a></li> <!--FIXME: Make all links relative -->
+                        <a href="logout"> [Log Out]</a></li> <!--FIXME: Make all links relative -->
                 {% else %}
                     <li role="presentation"><a href="/login">[Log
                         In]</a></li>

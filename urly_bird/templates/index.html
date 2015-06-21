@@ -18,15 +18,42 @@
                 {% bootstrap_pagination page_obj %}
             {% endif %}
             <table style="width:100%">
+                <tr>
+                    <td>Date</td>
+                    <td>Created By</td>
+                    <td>Urlycode</td>
+                    <td>Full URL</td>
+                    <td>Clicks</td>
+                    {% if request.user == bookmarks.first.user %}
+                        <td>Edit</td>
+                        <td>Delete</td>
+                    {% endif %}
+                </tr>
                 {% for bookmark in bookmarks %}
                     <tr>
-                        <td>{{ bookmark.user }}</td>
+                        {#                        <td><span class="badge">{{ bookmarks.num_clicks }}#}
+                        {#                </span></td> #TODO: Add number of clicks #}
+                        {#                        <td>{{ bookmark.user }}</td>#}
                         <td>{{ bookmark.timestamp }}</td>
-                        <td>{{ bookmark.short }}</td>
-                        <td> {{ bookmark.url }}</td>
+                        <td>{{ bookmark.user }}</td>
                         <td>
-                            <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark }}</a>
+                            <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark.short }}
                         </td>
+                        <td>
+                            <a href="{% url 'click' bookmark.pk %}">
+                            {{ bookmark.url }}</td>
+                        <td>
+                            {{ bookmark.num_clicks }}
+                        </td>
+                        {% if request.user == bookmark.user %}
+                            <td>
+                                <a href="{% url 'bookmark_update' bookmark.pk %}">...
+                            </td>
+                            </td>
+                            <td>
+                                <a href="{% url 'bookmark_delete' bookmark.pk %}">X
+                            </td>
+                        {% endif %}
                     </tr>
 
                 {% endfor %}

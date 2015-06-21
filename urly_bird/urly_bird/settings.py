@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'urly_bird',
     'bootstrap3',
+    'braces',
     'bookmark',
 )
 

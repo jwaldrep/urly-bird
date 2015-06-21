@@ -4,14 +4,15 @@
 {% block content %}
 
     <div class="col-md-12">
-        <h2>{{ header }}</h2>
+        <h2>{{ header }} for {{ bookmarks.first.user.get_username }}</h2>
         <ol>
             {% if is_paginated %}
                 {% bootstrap_pagination page_obj %}
             {% endif %}
             <table style="width:100%">
                 <tr>
-                    <td>Created</td>
+                    <td>Date</td>
+                    <td>Created By</td>
                     <td>Urlycode</td>
                     <td>Full URL</td>
                     <td>Clicks</td>
@@ -26,6 +27,7 @@
                         {#                </span></td> #TODO: Add number of clicks #}
                         {#                        <td>{{ bookmark.user }}</td>#}
                         <td>{{ bookmark.timestamp }}</td>
+                        <td>{{ bookmark.user }}</td>
                         <td>
                             <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark.short }}
                         </td>

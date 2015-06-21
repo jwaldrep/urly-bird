@@ -38,17 +38,17 @@ urlpatterns = [
     # FIXME: Make a lost password template
     url(r'^login/$', login, name='login'),
     # url(r'^logout', django.contrib.auth.logout(request)),
-    url(r'^logout/$', 'django.contrib.auth.views.logout',
+    url(r'logout/$', 'django.contrib.auth.views.logout',
         {'next_page': 'index'}),  # FIXME: Make this a non-admin view
     # Consider using logout_then_login(request[, login_url])
     url(r'^bookmarks/$', BookmarkListView.as_view(), name="bookmark_list"),
 
-    url(r'bookmark/add/$', BookmarkCreate.as_view(), name='bookmark_add'),
-    url(r'bookmark/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
+    url(r'^bookmark/add/$', BookmarkCreate.as_view(), name='bookmark_add'),
+    url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
         name='bookmark_update'),
-    url(r'bookmark/(?P<pk>[A-Za-z0-9]+)/delete/$', BookmarkDelete.as_view(),
+    url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/delete/$', BookmarkDelete.as_view(),
         name='bookmark_delete'),
-    url(r'bookmark/detail/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
+    url(r'^bookmark/detail/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
         name='bookmark_detail'),  # FIXME: Redundant, add loginrequired
     url(r'^user/(?P<user_id>\d+)$', UserBookmarkListView.as_view(), name="show_user"), #TODO: Add user view
 ]

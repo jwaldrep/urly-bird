@@ -1,3 +1,4 @@
+from braces.views import PermissionRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -22,10 +23,10 @@ class BookmarkCreate(CreateView):
         form.instance.user = self.request.user
         return super(BookmarkCreate, self).form_valid(form)
 
-class BookmarkUpdate(UpdateView):
+class BookmarkUpdate(UpdateView):  # PermissionRequiredMixin
     model = Bookmark
     fields = ['url', 'title', 'description']
-
+    # permission_required = "bookmark.change_bookmark"
     # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
 
 class BookmarkDelete(DeleteView):
@@ -58,9 +59,6 @@ class UserBookmarkListView(BookmarkListView):
         # me = self.request.user.id
         user_id = self.kwargs['user_id']
         return Bookmark.objects.filter(user_id=user_id).order_by('-timestamp', ).annotate(num_clicks=Count('click'))#.select_related()
-
-class IndexView(BookmarkListView):
-    template_name = "index.html"
     #+ TODO: A user's bookmark page should be public.
     #+ When viewing a user's bookmark page when not that user, the links
     #+ to edit and delete bookmarks should not show up.
@@ -69,8 +67,16 @@ class IndexView(BookmarkListView):
     #+ in reverse chronological order, paginated.
     #+ The bookmark links should use the internal short-code route, not the original URL.
     #+ From this page, they should be able to edit and delete bookmarks.
-    # TODO: There should also be a page to view all bookmarks for all users
-    # in reverse chronological order, paginated.
+
+class IndexView(BookmarkListView):
+    template_name = "index.html"
+
+    def get_queryset(self):
+        me = self.request.user.id
+        return Bookmark.objects.all().annotate(num_clicks=Count('click')).order_by('-timestamp', '-num_clicks' )#.select_related()
+
+   #+ TODO: There should also be a page to view all bookmarks for all users
+    #+ in reverse chronological order, paginated.
 
 def ClickView(request, pk):
     # do something, then
@@ -85,3 +91,8 @@ def ClickView(request, pk):
     return redirect(bookmark.url)
 
 # TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
+
+# TODO: (opt) Add multiple views on index page
+# TODO: (opt) Add sorting/filtering mixins
+# TODO: (opt) Add plots
+
