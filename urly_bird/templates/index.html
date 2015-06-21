@@ -20,13 +20,13 @@
             <table style="width:100%">
                 {% for bookmark in bookmarks %}
                     <tr>
-                    <td>{{ bookmark.user }}</td>
-                    <td>{{ bookmark.timestamp }}</td>
-                    <td>{{ bookmark.short }}</td>
-                    <td> {{ bookmark.url }}</td>
-                    <td>
-                        <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark }}</a>
-                    </td>
+                        <td>{{ bookmark.user }}</td>
+                        <td>{{ bookmark.timestamp }}</td>
+                        <td>{{ bookmark.short }}</td>
+                        <td> {{ bookmark.url }}</td>
+                        <td>
+                            <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark }}</a>
+                        </td>
                     </tr>
 
                 {% endfor %}

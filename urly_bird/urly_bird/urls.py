@@ -20,7 +20,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
-    BookmarkUpdate, BookmarkListView, IndexView, ClickView
+    BookmarkUpdate, BookmarkListView, IndexView, ClickView, UserBookmarkListView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -50,5 +50,5 @@ urlpatterns = [
         name='bookmark_delete'),
     url(r'bookmark/detail/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
         name='bookmark_detail'),  # FIXME: Redundant, add loginrequired
-
+    url(r'^user/(?P<user_id>\d+)$', UserBookmarkListView.as_view(), name="show_user"), #TODO: Add user view
 ]

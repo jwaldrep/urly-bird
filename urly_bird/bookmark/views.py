@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from bookmark.models import Bookmark
 from django.shortcuts import render, redirect
+from django.db.models import Count, Avg
 
 class BookmarkCreate(CreateView):
     model = Bookmark
@@ -23,6 +24,8 @@ class BookmarkCreate(CreateView):
 class BookmarkUpdate(UpdateView):
     model = Bookmark
     fields = ['url', 'title', 'description']
+    # TODO: A user's bookmark page should be public. When viewing a user's bookmark page when not that user, the links to edit and delete bookmarks should not show up.
+    # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
 
 class BookmarkDelete(DeleteView):
     model = Bookmark
@@ -35,7 +38,7 @@ class BookmarkListView(ListView):
     context_object_name = 'bookmarks'
     queryset = Bookmark.objects.order_by('-timestamp', ) #.annotate(Count('favorite')).select_related()
     paginate_by = 20
-    header = "All bookmarks"
+    header = "All Bookmarks"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -47,10 +50,23 @@ class BookmarkListView(ListView):
         # context["favorites"] = favorites
         return context
 
+class UserBookmarkListView(BookmarkListView):
+    header = "Personal Bookmarks"
+
+    def get_queryset(self):
+        # me = self.request.user.id
+        user_id = self.kwargs['user_id']
+        return Bookmark.objects.filter(user_id=user_id).order_by('-timestamp', ).annotate(num_clicks=Count('click'))#.select_related()
+
 class IndexView(BookmarkListView):
     template_name = "index.html"
+    # TODO: On a logged in user's index page, they should see a list of the bookmarks they've saved in reverse chronological order, paginated. The bookmark links should use the internal short-code route, not the original URL. From this page, they should be able to edit and delete bookmarks.
+    # TODO: There should also be a page to view all bookmarks for all users in reverse chronological order, paginated.
 
 def ClickView(request, pk):
     # do something, then
+    # When a user -- anonymous or logged in -- uses a bookmark URL, record that user, bookmark, and timestamp.
     url = Bookmark.objects.get(pk=pk).url
     return redirect(url)
+
+# TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
