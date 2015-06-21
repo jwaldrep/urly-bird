@@ -1,5 +1,6 @@
 from braces.views import PermissionRequiredMixin
-from django.http import Http404
+from django.forms import model_to_dict
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -120,7 +121,7 @@ def MyBookmarksView(request): # FIXME: Fix case
     user = request.user
     thirty_days_ago = timezone.now() - timedelta(days=30)
     mine = Bookmark.objects.filter(user=request.user).annotate(count_total=Count('click'))
-    recent = Bookmark.objects.filter(click__timestamp__gte=thirty_days_ago).annotate(count_recent=Count('click'))
+    recent = Bookmark.objects.filter(click__timestamp__gte=thirty_days_ago).annotate(count_recent=Count('click'))  # FIXME: Subquery 'mine' or Filter by user?
 
     return render(request, "dashboard.html", {'mine': mine,
                                                    'recent': recent})
@@ -130,4 +131,36 @@ def MyBookmarksView(request): # FIXME: Fix case
     #                            timestamp__gt=datetime.today() - timedelta(
     #                                days=30)) #.values('createdate').annotate(count=Count('id'))
 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import matplotlib
+matplotlib.style.use('ggplot')
 
+def clicks_chart(request, pk):  # FIXME: Speed up the generation of image?
+    # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    clicks = Click.objects.filter(bookmark_id=pk).filter(timestamp__gte=thirty_days_ago)#.annotate(count_recent=Count('click'))
+    df = pd.DataFrame(model_to_dict(click) for click in clicks)
+    df['count'] = 1
+    df.index = df['timestamp']
+    counts = df['count']
+    counts = counts.sort_index()
+    series = pd.expanding_count(counts).resample('D', how=np.max, fill_method='pad')
+    response = HttpResponse(content_type='image/png')
+
+    fig = plt.figure()
+    # ax = fig.add_subplot(111)
+    # ax.plot(series)
+    series.plot()
+    plt.title("Total clicks over past 30 days")
+    plt.xlabel("")
+    canvas = FigureCanvas(fig)
+    canvas.print_png(response)
+    return response
+
+# TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
+# TODO: (opt) Add multiple views on index page
+# TODO: (opt) Add sorting/filtering mixins
+# TODO: (opt) Add plots

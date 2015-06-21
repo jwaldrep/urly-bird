@@ -21,7 +21,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
     BookmarkUpdate, BookmarkListView, IndexView, ClickView, \
-    UserBookmarkListView, MyBookmarksView
+    UserBookmarkListView, MyBookmarksView, clicks_chart
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -54,5 +54,7 @@ urlpatterns = [
     # TODO: Add stats page for link in a a linechart
     url(r'^user/(?P<user_id>\d+)$', UserBookmarkListView.as_view(),
         name="show_user"),
-    url(r'dashboard/$', MyBookmarksView, name='dashboard')
+    url(r'dashboard/$', MyBookmarksView, name='dashboard'),
+    url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/clicks.png', clicks_chart,
+        name="clicks_chart")
 ]
