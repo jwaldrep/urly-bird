@@ -25,7 +25,7 @@ class BookmarkCreate(CreateView):
 class BookmarkUpdate(UpdateView):
     model = Bookmark
     fields = ['url', 'title', 'description']
-    # TODO: A user's bookmark page should be public. When viewing a user's bookmark page when not that user, the links to edit and delete bookmarks should not show up.
+
     # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
 
 class BookmarkDelete(DeleteView):
@@ -61,8 +61,16 @@ class UserBookmarkListView(BookmarkListView):
 
 class IndexView(BookmarkListView):
     template_name = "index.html"
-    # TODO: On a logged in user's index page, they should see a list of the bookmarks they've saved in reverse chronological order, paginated. The bookmark links should use the internal short-code route, not the original URL. From this page, they should be able to edit and delete bookmarks.
-    # TODO: There should also be a page to view all bookmarks for all users in reverse chronological order, paginated.
+    #+ TODO: A user's bookmark page should be public.
+    #+ When viewing a user's bookmark page when not that user, the links
+    #+ to edit and delete bookmarks should not show up.
+    #+ TODO: On a logged in user's index page,
+    #+ they should see a list of the bookmarks they've saved
+    #+ in reverse chronological order, paginated.
+    #+ The bookmark links should use the internal short-code route, not the original URL.
+    #+ From this page, they should be able to edit and delete bookmarks.
+    # TODO: There should also be a page to view all bookmarks for all users
+    # in reverse chronological order, paginated.
 
 def ClickView(request, pk):
     # do something, then

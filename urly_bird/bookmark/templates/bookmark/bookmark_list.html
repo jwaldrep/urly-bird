@@ -15,6 +15,10 @@
                     <td>Urlycode</td>
                     <td>Full URL</td>
                     <td>Clicks</td>
+                    {% if request.user == bookmarks.first.user %}
+                        <td>Edit</td>
+                        <td>Delete</td>
+                    {% endif %}
                 </tr>
                 {% for bookmark in bookmarks %}
                     <tr>
@@ -27,10 +31,19 @@
                         </td>
                         <td>
                             <a href="{% url 'click' bookmark.pk %}">
-                        {{ bookmark.url }}</td>
+                            {{ bookmark.url }}</td>
                         <td>
                             {{ bookmark.num_clicks }}
                         </td>
+                        {% if request.user == bookmark.user %}
+                            <td>
+                                <a href="{% url 'bookmark_update' bookmark.pk %}">...
+                            </td>
+                            </td>
+                            <td>
+                                <a href="{% url 'bookmark_delete' bookmark.pk %}">X
+                            </td>
+                        {% endif %}
                     </tr>
 
                 {% endfor %}
