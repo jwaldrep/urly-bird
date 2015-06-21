@@ -68,8 +68,11 @@ def ClickView(request, pk):
     # do something, then
     # When a user -- anonymous or logged in -- uses a bookmark URL, record that user, bookmark, and timestamp.
     bookmark = Bookmark.objects.get(pk=pk)
+    user_id =  request.user.id
+    if not user_id:
+        user_id = 'anonymous'
     click = Click(bookmark=bookmark, timestamp=timezone.now(),
-                          user_id=request.user.id)
+                          user_id=user_id)
     click.save()
     return redirect(bookmark.url)
 
