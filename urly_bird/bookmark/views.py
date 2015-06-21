@@ -1,4 +1,5 @@
 from braces.views import PermissionRequiredMixin
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -29,9 +30,24 @@ class BookmarkUpdate(UpdateView):  # PermissionRequiredMixin
     # permission_required = "bookmark.change_bookmark"
     # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
 
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(BookmarkUpdate, self).get_object()
+        if not obj.user == self.request.user:
+            raise Http404
+        return obj
+
 class BookmarkDelete(DeleteView):
     model = Bookmark
     success_url = reverse_lazy('bookmark_list')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(BookmarkDelete, self).get_object()
+        if not obj.owner == self.request.user:
+            raise Http404
+        return obj
+
 
 
 class BookmarkListView(ListView):
