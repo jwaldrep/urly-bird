@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block content %}
-
+{# FIXME: Clarify differentiation between user page and dashboard #}
     <div class="col-md-9">
         <h2>{{ request.user }}'s Dashboard</h2>
         <ol>
@@ -17,7 +17,7 @@
                     <td>Urlycode</td>
                     <td>Full URL</td>
                     <td>Clicks - All Time</td>
-                    <td>Clicks - Past 30 days</td>
+{#                    <td>Clicks - Past 30 days</td>#}
                     {% if request.user == mine.first.user %}
                         <td>Edit</td>
                         <td>Delete</td>
@@ -34,13 +34,13 @@
                             <a href="{% url 'click' bookmark.pk %}">
                             {{ bookmark.url }}</td>
                         <td> {{ bookmark.count_total }} </td>
-                        <td>
-                            {%  if bookmark in recent %}
-                            {{ recent.get.bookmark.count_recent }}  {# FIXME: show value here #}
-                            {% else %}
-                                0
-                            {% endif %}
-                        </td>
+{#                        <td>#}
+{#                            {%  if bookmark in recent %}#}
+{#                            {{ recent.get.bookmark.count_recent }}  {# FIXME: show value here #}
+{#                            {% else %}#}
+{#                                0#}
+{#                            {% endif %}#}
+{#                        </td>#}
                         {% if request.user == bookmark.user %}
                             <td>
                                 <a href="{% url 'bookmark_update' bookmark.pk %}">...
