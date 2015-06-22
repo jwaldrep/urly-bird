@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'urly_bird.wsgi.application'
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'urlybird',
-	'USER': 'pgadmin',
-	'HOST': '127.0.0.1',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'urlybird',
+        'USER': 'pgadmin',
+        'HOST': '127.0.0.1',
     },
 }
 

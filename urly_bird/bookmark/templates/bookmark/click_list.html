@@ -4,15 +4,15 @@
 {% block content %}
 
     <div class="col-md-12">
-{#        <h2>{{ header }} for#}
-{#            <a href="{% url 'click' clicks.objects.first.bookmark.pk %}">#}
-{#            {{ click.bookmark.first.pk }}</h2></a>#}
-{#            -#}
-{#            <a href="{% url 'click.bookmark.url' bookmark.pk %}">#}
-{#            {{ click.bookmark.url }}#}
-{##}
-{#                <a href="{% url 'clicks_chart' bookmark.pk %}>">#}
-{#                <img src="{% url 'clicks_chart' bookmark.pk %}>"></a>#}
+        {#        <h2>{{ header }} for#}
+        {#            <a href="{% url 'click' clicks.objects.first.bookmark.pk %}">#}
+        {#            {{ click.bookmark.first.pk }}</h2></a>#}
+        {#            -#}
+        {#            <a href="{% url 'click.bookmark.url' bookmark.pk %}">#}
+        {#            {{ click.bookmark.url }}#}
+        {##}
+        {#                <a href="{% url 'clicks_chart' bookmark.pk %}>">#}
+        {#                <img src="{% url 'clicks_chart' bookmark.pk %}>"></a>#}
         <ol>
             {% if is_paginated %}
                 {% bootstrap_pagination page_obj %}
@@ -21,7 +21,7 @@
                 <tr>
                     <td>Date</td>
                     <td>User</td>
-               </tr>
+                </tr>
                 {% for click in clicks %}
                     <tr>
                         <td>{{ click.timestamp }}</td>
@@ -30,7 +30,7 @@
                         </td>
 
 
-                   </tr>
+                    </tr>
 
                 {% endfor %}
             </table>

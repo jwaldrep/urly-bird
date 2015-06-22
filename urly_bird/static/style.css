@@ -1,24 +1,24 @@
 .jumbotron {
-	/*font-size:8px;*/
-	background-image: url(birds-fade.jpg);
-	background-size: 1350px;
-	background-position: -150px -150px;
+    /*font-size:8px;*/
+    background-image: url(birds-fade.jpg);
+    background-size: 1350px;
+    background-position: -150px -150px;
     background-repeat: no-repeat;
-	color: #008cba;
-	background-attachment:fixed;
-	min-height:400px;
-	max-width: 1200px;
-	/*margin-top:0px;*/
-	/*margin-bottom:8px;*/
-	margin-left:0px;
-	/*-webkit-opacity: 0.25;*/
-  /*-moz-opacity: 0.25;*/
-  /*opacity: 0.25;*/
+    color: #008cba;
+    background-attachment: fixed;
+    min-height: 400px;
+    max-width: 1200px;
+    /*margin-top:0px;*/
+    /*margin-bottom:8px;*/
+    margin-left: 0px;
+    /*-webkit-opacity: 0.25;*/
+    /*-moz-opacity: 0.25;*/
+    /*opacity: 0.25;*/
 }
 
-.badge{
-	/*font-size:12px;*/
-	margin: 5px;
-	background-color: #008cba;
-	border-radius: 50%;
+.badge {
+    /*font-size:12px;*/
+    margin: 5px;
+    background-color: #008cba;
+    border-radius: 50%;
 }

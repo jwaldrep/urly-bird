@@ -50,8 +50,8 @@ def create_fake_users(num=10):
     fake = Faker()
     for _ in range(num):
         user = User.objects.create_user(username=fake.name(),
-                                       email=fake.email(),
-                                       password='password')
+                                        email=fake.email(),
+                                        password='password')
         # user.save()
 
 
@@ -76,6 +76,7 @@ class Click(models.Model):
     def __str__(self):
         return '@' + str(self.timestamp) + '->' + str(self.bookmark)
 
+
 def create_fake_clicks(bookmarks, num=10, random=True,
                        timefn=Faker().date_time_this_month):
     """
@@ -89,7 +90,8 @@ def create_fake_clicks(bookmarks, num=10, random=True,
     """
     for bookmark in bookmarks:
         users = User.objects.all()
-        for _ in range(randint(1,num)):
+        for _ in range(randint(1, num)):
             click = Click(bookmark=bookmark, timestamp=make_aware(timefn()),
-                          user_id=choice(users).id)  # FIXME: pick random user, test
+                          user_id=choice(
+                              users).id)  # FIXME: pick random user, test
             click.save()

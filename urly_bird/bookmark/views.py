@@ -117,38 +117,46 @@ def ClickView(request, pk):  # FIXME: Fix case
     return redirect(bookmark.url)
 
 
-def MyBookmarksView(request): # FIXME: Fix case
+def MyBookmarksView(request):  # FIXME: Fix case
     user = request.user
     thirty_days_ago = timezone.now() - timedelta(days=30)
-    mine = Bookmark.objects.filter(user=request.user).annotate(count_total=Count('click'))
-    recent = Bookmark.objects.filter(click__timestamp__gte=thirty_days_ago).annotate(count_recent=Count('click'))  # FIXME: Subquery 'mine' or Filter by user?
+    mine = Bookmark.objects.filter(user=request.user).annotate(
+        count_total=Count('click'))
+    recent = Bookmark.objects.filter(
+        click__timestamp__gte=thirty_days_ago).annotate(count_recent=Count(
+        'click'))  # FIXME: Subquery 'mine' or Filter by user?
 
     return render(request, "dashboard.html", {'mine': mine,
-                                                   'recent': recent})
+                                              'recent': recent})
 
 
     # clicks = Click.objects.filter(timestamp__lte=datetime.today(),
     #                            timestamp__gt=datetime.today() - timedelta(
     #                                days=30)) #.values('createdate').annotate(count=Count('id'))
 
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import matplotlib
+
 matplotlib.style.use('fivethirtyeight')
+
 
 def clicks_chart(request, pk):
     # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
     # FIXME: Add error checking if 0 clicks
     thirty_days_ago = timezone.now() - timedelta(days=30)
-    clicks = Click.objects.filter(bookmark_id=pk).filter(timestamp__gte=thirty_days_ago)#.annotate(count_recent=Count('click'))
+    clicks = Click.objects.filter(bookmark_id=pk).filter(
+        timestamp__gte=thirty_days_ago)  # .annotate(count_recent=Count('click'))
     df = pd.DataFrame(model_to_dict(click) for click in clicks)
     df['count'] = 1
     df.index = df['timestamp']
     counts = df['count']
     counts = counts.sort_index()
-    series = pd.expanding_count(counts).resample('D', how=np.max, fill_method='pad')
+    series = pd.expanding_count(counts).resample('D', how=np.max,
+                                                 fill_method='pad')
     response = HttpResponse(content_type='image/png')
 
     fig = plt.figure()
@@ -157,12 +165,13 @@ def clicks_chart(request, pk):
     series.plot()
     plt.title("Total clicks over past 30 days")
     plt.xlabel("")
-    plt.xlim( thirty_days_ago, timezone.now())
+    plt.xlim(thirty_days_ago, timezone.now())
     canvas = FigureCanvas(fig)
     # ax = fig.add_subplot(1, 1, 1, axisbg='red')
     # ax.plot(series)
     canvas.print_png(response)
     return response
+
 
 class ClickListView(ListView):
     template_name = "bookmarks/click_list.html"
@@ -181,13 +190,12 @@ class ClickListView(ListView):
         context = super().get_context_data(**kwargs)
         context["header"] = self.header
 
-# TODO: Verify SQL queries are efficient
-# +TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
-# TODO: (opt) Add multiple views on index page
-# TODO: (opt) Add sorting/filtering mixins
-# TODO: (opt) Add plots
-# TODO: Add dropdown for weekly/montly/yearly/30 day totals
-# TODO: Add search for bookmarks
-# TODO: Differentiate dashboard vs user page
-# TODO: Add ClickListView
-# TODO: Add user profiles
+        # TODO: Verify SQL queries are efficient
+        # +TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
+        # TODO: (opt) Add multiple views on index page
+        # TODO: (opt) Add sorting/filtering mixins
+        # TODO: (opt) Add plots
+        # TODO: Add dropdown for weekly/montly/yearly/30 day totals
+        # TODO: Add search for bookmarks
+        # TODO: Differentiate dashboard vs user page
+        # TODO: Add user profiles

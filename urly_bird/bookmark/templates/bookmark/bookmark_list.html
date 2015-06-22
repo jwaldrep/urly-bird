@@ -31,17 +31,18 @@
                             {{ bookmark.user }}</a>
                         </td>
                         <td>
-                                {{ bookmark.short }}
+                            {{ bookmark.short }}
                         </td>
                         <td>
                             <a href="{% url 'click' bookmark.pk %}">
                             {{ bookmark.url }}</td>
                         <td align="right">
                             <a href={% url 'clicks_chart' bookmark.pk %}>
-                            {{ bookmark.num_clicks }}</a>
+                                {{ bookmark.num_clicks }}</a>
                             {% if request.user == bookmark.user %}
-                            <a href="{% url 'clicks_chart' bookmark.pk %}>">
-                            <img src="{% url 'clicks_chart' bookmark.pk %}>" width="20px"></a>
+                                <a href="{% url 'clicks_chart' bookmark.pk %}>">
+                                    <img src="{% url 'clicks_chart' bookmark.pk %}>"
+                                         width="20px"></a>
                             {% endif %}
                         </td>
                         {% if request.user == bookmark.user %}

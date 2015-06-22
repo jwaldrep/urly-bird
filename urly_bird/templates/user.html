@@ -3,17 +3,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ user }}</h2>
+    <h2>{{ user }}</h2>
     <p>Username: {{ user }}</p>
     <h3>Bookmarks</h3>
     <ol>
         {% for bookmark in bookmarks %}
             <li><span class="badge">{{ bookmark.click_set.count }}
                 </span>
-{#            <li><small> #TODO: Add disable on hover#}
-          <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark.title }}</a>
-          - {{ bookmark.timestamp }}
-        </li>
+                {#            <li><small> #TODO: Add disable on hover#}
+                <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark.title }}</a>
+                - {{ bookmark.timestamp }}
+            </li>
         {% endfor %}
     </ol>
 {% endblock %}
