@@ -33,7 +33,7 @@ class Bookmark(models.Model):
         #
         self.short = create_short(randint(0, 10 ** 16))
 
-        super(Bookmark, self).save(*args,
+        super().save(*args,
                                    **kwargs)  # Call the "real" save() method.
         # do_something_else()
 

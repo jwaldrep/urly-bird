@@ -198,4 +198,4 @@ class ClickListView(ListView):
         # TODO: Add dropdown for weekly/montly/yearly/30 day totals
         # TODO: Add search for bookmarks
         # TODO: Differentiate dashboard vs user page
-        # TODO: Add user profiles
+        # TODO: Add user profile
