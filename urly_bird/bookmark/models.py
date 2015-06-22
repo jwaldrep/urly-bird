@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import make_aware, now
 from hashids import Hashids
-from random import randint
+from random import randint, choice
 from django.core.urlresolvers import reverse
 from faker import Faker
 
@@ -56,6 +56,7 @@ def create_fake_users(num=10):
 
 
 def create_fake_bookmarks(user, num=10):
+    # TODO: Change model to allow fake Bookmark timestamp
     fake = Faker()
     for _ in range(num):
         url = fake.uri()
@@ -90,5 +91,5 @@ def create_fake_clicks(bookmarks, num=10, random=True,
         users = User.objects.all()
         for _ in range(randint(1,num)):
             click = Click(bookmark=bookmark, timestamp=make_aware(timefn()),
-                          user_id=random.choice(users))  # FIXME: pick random user, test
+                          user_id=choice(users).id)  # FIXME: pick random user, test
             click.save()
