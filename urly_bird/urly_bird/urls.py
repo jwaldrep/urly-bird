@@ -49,12 +49,12 @@ urlpatterns = [
         name='bookmark_update'),
     url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/delete/$', BookmarkDelete.as_view(),
         name='bookmark_delete'),
-    url(r'^bookmark/detail/(?P<pk>[A-Za-z0-9]+)/$', BookmarkUpdate.as_view(),
+    url(r'^bookmark/detail/(?P<pk>[A-Za-z0-9]+)/$', ClickListView.as_view(),
         name='bookmark_detail'),
     # TODO: Add stats page for link in a a linechart
     url(r'^user/(?P<user_id>\d+)$', UserBookmarkListView.as_view(),
         name="show_user"),
     url(r'dashboard/$', MyBookmarksView, name='dashboard'),
     url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/clicks.png', clicks_chart,
-        name="clicks_chart")
+        name="clicks_chart"),
 ]

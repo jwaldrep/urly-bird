@@ -32,18 +32,25 @@
                 {% for bookmark in bookmarks %}
                     <tr>
                         {#                        <td><span class="badge">{{ bookmarks.num_clicks }}#}
-                        {#                </span></td> #TODO: Add number of clicks #}
+                        {#                </span></td> #}
                         {#                        <td>{{ bookmark.user }}</td>#}
                         <td>{{ bookmark.timestamp }}</td>
-                        <td>{{ bookmark.user }}</td>
+                        <td><a href="{% url 'show_user' bookmark.user.id %}">
+                            {{ bookmark.user }}</a>
+                        </td>
                         <td>
-                            <a href="{% url 'bookmark_detail' bookmark.pk %}">{{ bookmark.short }}
+                                {{ bookmark.short }}
                         </td>
                         <td>
                             <a href="{% url 'click' bookmark.pk %}">
                             {{ bookmark.url }}</td>
                         <td>
-                            {{ bookmark.num_clicks }}
+                            <a href={% url 'clicks_chart' bookmark.pk %}>
+                            {{ bookmark.num_clicks }}</a>
+                            {% if request.user == bookmark.user %}
+                            <a href="{% url 'clicks_chart' bookmark.pk %}>">
+                            <img src="{% url 'clicks_chart' bookmark.pk %}>" width="20px"></a>
+                            {% endif %}
                         </td>
                         {% if request.user == bookmark.user %}
                             <td>
@@ -53,6 +60,7 @@
                             <td>
                                 <a href="{% url 'bookmark_delete' bookmark.pk %}">X
                             </td>
+
                         {% endif %}
                     </tr>
 
@@ -61,49 +69,4 @@
         </ol>
     </div>
 
-    {#    <div class="col-md-6">#}
-    {#        <h2><a href="{% url 'show_movies' %}">Highest Rated</a> :</h2>#}
-    {#        <ol>#}
-    {##}
-    {#            {% for movie in movies %}#}
-    {#                <li><span class="badge">{{ movie.rating_avg|floatformat:"1" }}#}
-    {#                </span>#}
-    {#                    <a href="{% url 'show_movie' movie.id %}">{{ movie }}</a>#}
-    {##}
-    {#                    <small>#}
-    {#                        <small>#}
-    {#                            <small>#}
-    {#                                <!--FIXME: Find a better way to make small text-->#}
-    {#                                {{ movie.rating_count }}#}
-    {#                            </small>#}
-    {#                        </small>#}
-    {#                    </small>#}
-    {##}
-    {#                </li>#}
-    {#            {% endfor %}#}
-    {##}
-    {#        </ol>#}
-    {#    </div>#}
-    {#    <div class="col-md-6">#}
-    {#        <h2>Most Rated:</h2>#}
-    {#        <ol>#}
-    {#            {% for movie in most_rated %}#}
-    {#                <li><span class="badge">{{ movie.rating_avg|floatformat:"1" }}#}
-    {#                </span>#}
-    {#                    <a href="{% url 'show_movie' movie.id %}">{{ movie }}</a>#}
-    {##}
-    {#                    <small>#}
-    {#                        <small>#}
-    {#                            <small>#}
-    {#                                <!--FIXME: Find a better way to make small text-->#}
-    {#                                {{ movie.rating_count }}#}
-    {#                            </small>#}
-    {#                        </small>#}
-    {#                    </small>#}
-    {##}
-    {#                </li>#}
-    {#            {% endfor %}#}
-    {##}
-    {#        </ol>#}
-    {#    </div>#}
 {% endblock %}

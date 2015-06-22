@@ -136,10 +136,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import matplotlib
-matplotlib.style.use('ggplot')
+matplotlib.style.use('fivethirtyeight')
 
-def clicks_chart(request, pk):  # FIXME: Speed up the generation of image?
+def clicks_chart(request, pk):
     # TODO: Add a stats page for each link where you can see the traffic for that link for the last 30 days in a line chart.
+    # FIXME: Add error checking if 0 clicks
     thirty_days_ago = timezone.now() - timedelta(days=30)
     clicks = Click.objects.filter(bookmark_id=pk).filter(timestamp__gte=thirty_days_ago)#.annotate(count_recent=Count('click'))
     df = pd.DataFrame(model_to_dict(click) for click in clicks)
@@ -156,11 +157,37 @@ def clicks_chart(request, pk):  # FIXME: Speed up the generation of image?
     series.plot()
     plt.title("Total clicks over past 30 days")
     plt.xlabel("")
+    plt.xlim( thirty_days_ago, timezone.now())
     canvas = FigureCanvas(fig)
+    # ax = fig.add_subplot(1, 1, 1, axisbg='red')
+    # ax.plot(series)
     canvas.print_png(response)
     return response
 
-# TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
+class ClickListView(ListView):
+    template_name = "bookmarks/click_list.html"
+    model = Click
+    context_object_name = 'click'
+    queryset = Click.objects.order_by(
+        '-timestamp', )  # .select_related()  # FIXME: Fix missing queryset
+    paginate_by = 20
+    header = "All Clicks"
+
+    # def get_queryset(self):
+    #     me = self.request.user.id
+    #     return Click.objects.order_by('-timestamp', )  # .select_related()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header"] = self.header
+
+# TODO: Verify SQL queries are efficient
+# +TODO: Add an overall stats page for each user where you can see a table of their links by popularity and their number of clicks over the last 30 days. This page should only be visible to that user.
 # TODO: (opt) Add multiple views on index page
 # TODO: (opt) Add sorting/filtering mixins
 # TODO: (opt) Add plots
+# TODO: Add dropdown for weekly/montly/yearly/30 day totals
+# TODO: Add search for bookmarks
+# TODO: Differentiate dashboard vs user page
+# TODO: Add ClickListView
+# TODO: Add user profiles
