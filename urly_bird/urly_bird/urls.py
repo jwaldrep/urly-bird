@@ -21,7 +21,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
     BookmarkUpdate, BookmarkListView, IndexView, ClickView, \
-    UserBookmarkListView, MyBookmarksView, clicks_chart
+    UserBookmarkListView, MyBookmarksView, clicks_chart, ClickListView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
