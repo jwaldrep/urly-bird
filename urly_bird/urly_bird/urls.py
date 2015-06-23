@@ -63,4 +63,6 @@ urlpatterns = [
     url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/clicks.png', clicks_chart,
         name="clicks_chart"),
     url(r'^api/', include(router.urls)),  # FIXME: move to api app
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+
 ]
