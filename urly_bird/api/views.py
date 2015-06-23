@@ -1,1 +1,8 @@
-# Create your views here.
+from bookmark.models import Bookmark
+from api.serializers import BookmarkSerializer
+from rest_framework import viewsets
+
+
+class BookmarkViewSet(viewsets.ModelViewSet):
+    queryset = Bookmark.objects.all()
+    serializer_class =BookmarkSerializer

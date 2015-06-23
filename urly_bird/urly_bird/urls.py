@@ -22,10 +22,11 @@ from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
     BookmarkUpdate, BookmarkListView, IndexView, ClickView, \
     UserBookmarkListView, MyBookmarksView, clicks_chart, ClickListView
+from api.views import BookmarkViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'bookmarks', views.ContactViewSet)
+router.register(r'bookmarks', BookmarkViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -61,5 +62,5 @@ urlpatterns = [
     url(r'dashboard/$', MyBookmarksView, name='dashboard'),
     url(r'^bookmark/(?P<pk>[A-Za-z0-9]+)/clicks.png', clicks_chart,
         name="clicks_chart"),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/', include(router.urls)),  # FIXME: move to api app
 ]
