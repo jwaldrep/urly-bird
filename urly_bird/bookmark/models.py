@@ -70,7 +70,7 @@ def create_fake_bookmarks(user, num=10):
 class Click(models.Model):
     bookmark = models.ForeignKey(Bookmark)
     timestamp = models.DateTimeField(default=now)
-    user_id = models.CharField(max_length=16)
+    user_id = models.CharField(max_length=16) # FIXME: FK to user, add null=True
 
     def __str__(self):
         return '@' + str(self.timestamp) + '->' + str(self.bookmark)

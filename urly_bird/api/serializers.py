@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):  # Don't use hyperlink until 
 class BookmarkSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     api_url = serializers.HyperlinkedIdentityField(view_name='bookmark-detail')  # FIXME: Huh?
-
+    pk = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Bookmark
