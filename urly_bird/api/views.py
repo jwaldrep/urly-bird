@@ -19,6 +19,7 @@ class ClickViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user.id) #, bookmark=???)  # FIXME: Breaks on anon user # TODO: How to access bookmark?
                     # FIXME: self.request.user.id works, but is this okay to use as PrimaryKeyRelatedField??
+        
     def get_queryset(self):
         self.queryset = Click.objects.filter(bookmark__user=self.request.user)
         return super().get_queryset()
