@@ -27,7 +27,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'bookmarks', BookmarkViewSet)
-router.register(r'clicks', ClickViewSet)
+router.register(r'clicks', ClickViewSet, base_name='click') # NOTE: Not 'clicks' !
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

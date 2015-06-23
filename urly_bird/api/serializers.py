@@ -22,8 +22,9 @@ class BookmarkSerializer(serializers.HyperlinkedModelSerializer):
 
 class ClickSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(read_only=True)
-    bookmark = serializers.PrimaryKeyRelatedField(read_only=True)
+    # bookmark = serializers.PrimaryKeyRelatedField() # Can't be read_only initially
+    # url = serializers.HyperlinkedIdentityField(view_name='click-detail') # FIXME: Is this needed? No, doesn't solve the problem
 
     class Meta:
         model = Click
-        fields = ('id', 'url', 'user_id', 'bookmark', 'timestamp')
+        fields = ('id', 'user_id', 'bookmark', 'timestamp')
