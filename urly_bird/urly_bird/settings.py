@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'django_extensions',
+    'rest_framework',
     'urly_bird',
     'bootstrap3',
     'braces',
