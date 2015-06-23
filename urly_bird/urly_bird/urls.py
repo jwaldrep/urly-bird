@@ -22,11 +22,12 @@ from django.contrib.auth.views import login
 from bookmark.views import Bookmark, BookmarkCreate, BookmarkDelete, \
     BookmarkUpdate, BookmarkListView, IndexView, ClickView, \
     UserBookmarkListView, MyBookmarksView, clicks_chart, ClickListView
-from api.views import BookmarkViewSet
+from api.views import BookmarkViewSet, ClickViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'bookmarks', BookmarkViewSet)
+router.register(r'clicks', ClickViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
