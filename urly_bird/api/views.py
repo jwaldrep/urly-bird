@@ -13,6 +13,8 @@ class BookmarkViewSet(viewsets.ModelViewSet):
 class ClickViewSet(viewsets.ModelViewSet):
     serializer_class = ClickSerializer
     # queryset = Click.objects.all()
+    #source = click_set.count() -- tons of queries
+        #annotate inside view
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user.id) #, bookmark=???)  # FIXME: Breaks on anon user # TODO: How to access bookmark?
