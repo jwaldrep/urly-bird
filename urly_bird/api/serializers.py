@@ -20,11 +20,11 @@ class BookmarkSerializer(serializers.HyperlinkedModelSerializer):
             # FIXME: why does id break it? (django.core.exceptions.ImproperlyConfigured: Field name `id` is not valid for model `Bookmark`.)
             # FIXME: why does short show up twice? (pk == short, so remove short)
 
-class ClickSerializer(serializers.ModelSerializer):
+class ClickSerializer(serializers.HyperlinkedModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(read_only=True)
     # bookmark = serializers.PrimaryKeyRelatedField() # Can't be read_only initially
     # url = serializers.HyperlinkedIdentityField(view_name='click-detail') # FIXME: Is this needed? No, doesn't solve the problem
 
     class Meta:
         model = Click
-        fields = ('id', 'user_id', 'bookmark', 'timestamp')
+        fields = ('id', 'url', 'user_id', 'bookmark', 'timestamp')
