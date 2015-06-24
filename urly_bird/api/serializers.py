@@ -3,10 +3,10 @@ from bookmark.models import Bookmark, Click
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.ModelSerializer):  # Don't use hyperlink until view is made
-
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
+        fields = ('url', 'username', 'email')
 
 
 class BookmarkSerializer(serializers.HyperlinkedModelSerializer):

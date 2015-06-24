@@ -1,5 +1,6 @@
+from django.contrib.auth.models import User
 from bookmark.models import Bookmark, Click
-from api.serializers import BookmarkSerializer, ClickSerializer
+from api.serializers import BookmarkSerializer, ClickSerializer, UserSerializer
 from rest_framework import viewsets
 from api.permissions import IsOwnerOrReadOnly, OwnsRelatedBookmark
 from rest_framework import viewsets, permissions, generics, filters
@@ -30,6 +31,15 @@ class BookmarkViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)  # FIXME: Breaks on anon user
             # user is used for permissions as well as serializing
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 
 class ClickViewSet(viewsets.ModelViewSet):
     serializer_class = ClickSerializer
