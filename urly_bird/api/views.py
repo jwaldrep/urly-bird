@@ -16,11 +16,15 @@ class BookmarkViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)  # FIXME: Breaks on anon user
             # user is used for permissions as well as serializing
+
 class ClickViewSet(viewsets.ModelViewSet):
     serializer_class = ClickSerializer
     # queryset = Click.objects.all()
     #source = click_set.count() -- tons of queries
     # TODO: annotate inside view to reduce number of queries
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user.id) #, bookmark=???)  # FIXME: Breaks on anon user # TODO: How to access bookmark?
