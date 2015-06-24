@@ -5,7 +5,7 @@ from api.permissions import IsOwnerOrReadOnly, OwnsRelatedBookmark
 from rest_framework import viewsets, permissions, generics, filters
 from rest_framework.exceptions import PermissionDenied
 import django_filters
-
+from django.db.utils import IntegrityError
 
 class BookmarkFilter(django_filters.FilterSet):
     user = django_filters.CharFilter(name="user", lookup_type="icontains")
@@ -33,17 +33,22 @@ class BookmarkViewSet(viewsets.ModelViewSet):
 
 class ClickViewSet(viewsets.ModelViewSet):
     serializer_class = ClickSerializer
-    # queryset = Click.objects.all()
+    queryset = Click.objects.all()
     #source = click_set.count() -- tons of queries
     # TODO: annotate inside view to reduce number of queries
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+    #                       IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user.id) #, bookmark=???)  # FIXME: Breaks on anon user # TODO: How to access bookmark?
+        try:
+            serializer.save(user_id=self.request.user.id) #, bookmark=???)
+        except IntegrityError:
+            serializer.save(user_id="anonymous")  # FIXME: Make None; update model to accept None for anonymous
+                    #  FIXME: Breaks on anon user
+                    #  TODO: How to access bookmark?
                     # FIXME: self.request.user.id works, but is this okay to use as PrimaryKeyRelatedField??
 
-    def get_queryset(self):
-        self.queryset = Click.objects.filter(bookmark__user=self.request.user)
-        return super().get_queryset()
+    # def get_queryset(self):
+    #     self.queryset = Click.objects.filter(bookmark__user=self.request.user)
+    #     return super().get_queryset()
