@@ -7,8 +7,9 @@ from rest_framework.exceptions import PermissionDenied
 import django_filters
 from django.db.utils import IntegrityError
 
+
 class BookmarkFilter(django_filters.FilterSet):
-    user = django_filters.CharFilter(name="user", lookup_type="icontains")
+    user = django_filters.CharFilter(name="user", lookup_type="exact")  # FIXME: Can't filter on user
     url = django_filters.CharFilter(name="url", lookup_type="icontains")
     title = django_filters.CharFilter(name="title", lookup_type="icontains")
     description = django_filters.CharFilter(name="description", lookup_type="icontains")
@@ -17,9 +18,8 @@ class BookmarkFilter(django_filters.FilterSet):
         model = Bookmark
         fields = ['user', 'url', 'title', 'description']
 
-
 class BookmarkViewSet(viewsets.ModelViewSet):
-    """Use name and notes GET parameters to filter."""
+    """Use user, url, title, and/or description GET parameters to filter."""
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
