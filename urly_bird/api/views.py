@@ -3,7 +3,7 @@ from bookmark.models import Bookmark, Click
 from api.serializers import BookmarkSerializer, ClickSerializer, UserSerializer
 from rest_framework import viewsets
 from api.permissions import IsOwnerOrReadOnly, OwnsRelatedBookmark
-from rest_framework import viewsets, permissions, generics, filters
+from rest_framework import viewsets, permissions, generics, filters, mixins
 from rest_framework.exceptions import PermissionDenied
 import django_filters
 from django.db.utils import IntegrityError
@@ -33,7 +33,13 @@ class BookmarkViewSet(viewsets.ModelViewSet):
             # user is used for permissions as well as serializing
 
 
-class UserViewSet(viewsets.ModelViewSet):
+# class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
